@@ -40,6 +40,15 @@ public class Robot {
         if (Direction.NORTH.equals(this.currentDirection)) {
             newY = newY + nrSteps;
         }
+        else if (Direction.EAST.equals(this.currentDirection)) {
+            newX = newX - nrSteps;
+        }
+        else if (Direction.SOUTH.equals(this.currentDirection)) {
+            newY = newY - nrSteps;
+        }
+        else if (Direction.WEST.equals(this.currentDirection)) {
+            newX = newX + nrSteps;
+        }
 
         Position newPosition = new Position(newX, newY);
         if (newPosition.isIn(TOP_LEFT,BOTTOM_RIGHT)){
