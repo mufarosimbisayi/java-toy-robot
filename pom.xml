@@ -78,7 +78,7 @@
                 <version>2.22.1</version>
                 <configuration>
                     <excludes>
-                        <exclude>za/co/wethinkcode/toyrobot/*.java</exclude>
+                        <!--exclude>za/co/wethinkcode/toyrobot/*.java</exclude-->
                     </excludes>
                 </configuration>
             </plugin>

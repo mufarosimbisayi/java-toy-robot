@@ -38,6 +38,25 @@ class CommandTest {
         assertEquals("Moved forward by 10 steps.", robot.getStatus());
     }
 
+
+    @Test
+    void getBackName() {
+        BackCommand test = new BackCommand("100");
+        assertEquals("back", test.getName());
+        assertEquals("100", test.getArgument());
+    }
+
+
+    @Test
+    void executeBack() {
+        Robot robot = new Robot("test");
+        Command backCommand = Command.create("back 10");
+        backCommand.execute(robot);
+        assertEquals(new Position(0, -10), robot.getPosition());
+        assertEquals("Moved back by 10 steps.", robot.getStatus());
+    }
+
+
     @Test
     void getHelpName() {
         Command test = new HelpCommand();                                                               //<1>

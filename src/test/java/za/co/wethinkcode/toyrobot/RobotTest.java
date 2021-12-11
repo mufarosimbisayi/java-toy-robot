@@ -37,6 +37,17 @@ class RobotTest {
         assertEquals("Moved forward by 10 steps.", robot.getStatus());
     }
 
+    
+    @Test
+    void back() {
+        Robot robot = new Robot("CrashTestDummy");
+        BackCommand command = new BackCommand("10");
+        assertTrue(robot.handleCommand(command));
+        assertEquals(new Position(0, -10), robot.getPosition());
+        assertEquals("Moved back by 10 steps.", robot.getStatus());
+    }
+
+
     @Test
     void forwardforward() {
         Robot robot = new Robot("CrashTestDummy");
