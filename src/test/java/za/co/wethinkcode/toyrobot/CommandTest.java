@@ -56,6 +56,30 @@ class CommandTest {
         assertEquals("Moved back by 10 steps.", robot.getStatus());
     }
 
+    @Test
+    void getRightName() {
+        RightCommand rightCommand = new RightCommand();
+        assertEquals("right", rightCommand.getName());
+    }
+
+    @Test
+    void executeRightCommand() {
+        RightCommand rightCommand = new RightCommand();
+        Robot robot = new Robot("HAL");
+        rightCommand.execute(robot);
+        assertEquals(new Position(0, 0), robot.getPosition());
+        assertEquals(Direction.WEST, robot.getDirection());
+    }
+
+    @Test
+    void getLeftName() {
+        LeftCommand leftCommand = new LeftCommand();
+        Robot robot = new Robot("HAL");
+        leftCommand.execute(robot);
+        assertEquals(new Position(0,0), robot.getPosition());
+        assertEquals(Direction.EAST, robot.getDirection());
+        assertEquals("Turned left.", robot.getStatus());
+    }
 
     @Test
     void getHelpName() {
@@ -71,7 +95,8 @@ class CommandTest {
         assertEquals("I can understand these commands:\n" +
                 "OFF  - Shut down robot\n" +
                 "HELP - provide information about commands\n" +
-                "FORWARD - move forward by specified number of steps, e.g. 'FORWARD 10'", robot.getStatus());
+                "FORWARD - move forward by specified number of steps, e.g. 'FORWARD 10'\n" +
+                "BACK - move back by specified number of steps, e.g. 'BACK 10'", robot.getStatus());
     }
 
     @Test
@@ -85,6 +110,16 @@ class CommandTest {
 
         Command help = Command.create("help");                                                          //<3>
         assertEquals("help", help.getName());
+                        //<4>
+        Command back = Command.create("back 10");
+        assertEquals("back", back.getName());
+        assertEquals("10", back.getArgument());
+                        //<4>
+        Command right = Command.create("right");
+        assertEquals("right", right.getName());
+                        //<5>
+        Command left = Command.create("left");
+        assertEquals("left", left.getName());
     }
 
     @Test

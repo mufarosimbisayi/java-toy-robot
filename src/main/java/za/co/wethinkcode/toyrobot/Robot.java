@@ -66,4 +66,12 @@ public class Robot {
     public String getName() {
         return name;
     }
+
+    public void setDirection(Direction direction) {
+        this.currentDirection = direction;
+    }
+
+    public Direction getDirection() {
+        return this.currentDirection;
+    }
 }

@@ -36,6 +36,8 @@ public abstract class Command {
                 return new ForwardCommand(args[1]);
             case "back":
                 return new BackCommand(args[1]);
+            case "right":
+                return new RightCommand();
             default:
                 throw new IllegalArgumentException("Unsupported command: " + instruction);
         }

@@ -65,6 +65,26 @@ class RobotTest {
     }
 
     @Test
+    void rightForward() {
+        Robot robot = new Robot("CrashTestDummy");
+        assertTrue(robot.handleCommand(new RightCommand()));
+        assertEquals("Turned right.", robot.getStatus());
+        assertTrue(robot.handleCommand(new ForwardCommand("10")));
+        assertEquals("Moved forward by 10 steps.", robot.getStatus());
+        assertEquals(new Position(10,0), robot.getPosition());
+    }
+
+    @Test
+    void leftForward() {
+        Robot robot = new Robot("CrashTestDummy");
+        assertTrue(robot.handleCommand(new LeftCommand()));
+        assertEquals("Turned left.", robot.getStatus());
+        assertTrue(robot.handleCommand(new ForwardCommand("10")));
+        assertEquals("Moved forward by 10 steps.", robot.getStatus());
+        assertEquals(new Position(-10,0), robot.getPosition());
+    }
+
+    @Test
     void help() {
         Robot robot = new Robot("CrashTestDummy");
         Command command = new HelpCommand();
@@ -72,6 +92,15 @@ class RobotTest {
         assertEquals("I can understand these commands:\n" +
                 "OFF  - Shut down robot\n" +
                 "HELP - provide information about commands\n" +
-                "FORWARD - move forward by specified number of steps, e.g. 'FORWARD 10'", robot.getStatus());
+                "FORWARD - move forward by specified number of steps, e.g. 'FORWARD 10'\n" +
+                "BACK - move back by specified number of steps, e.g. 'BACK 10'", robot.getStatus());
+    }
+
+
+    @Test
+    void setAndGetDirection() {
+        Robot robot = new Robot("test");
+        robot.setDirection(Direction.SOUTH);
+        assertEquals(Direction.SOUTH, robot.getDirection());
     }
 }
