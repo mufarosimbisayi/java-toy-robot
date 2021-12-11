@@ -85,6 +85,19 @@ class RobotTest {
     }
 
     @Test
+    void sprint() {
+        Robot robot = new Robot("test");
+        assertTrue(robot.handleCommand(new SprintCommand("5")));
+        assertEquals(new Position(0,15), robot.getPosition());
+        assertEquals("Moved forward by 5 steps.\n" +
+                    "Moved forward by 4 steps.\n" +
+                    "Moved forward by 3 steps.\n" +
+                    "Moved forward by 2 steps.\n" +
+                    "Moved forward by 1 steps.)\n",
+                    robot.getStatus());
+    }
+
+    @Test
     void help() {
         Robot robot = new Robot("CrashTestDummy");
         Command command = new HelpCommand();
@@ -95,7 +108,6 @@ class RobotTest {
                 "FORWARD - move forward by specified number of steps, e.g. 'FORWARD 10'\n" +
                 "BACK - move back by specified number of steps, e.g. 'BACK 10'", robot.getStatus());
     }
-
 
     @Test
     void setAndGetDirection() {

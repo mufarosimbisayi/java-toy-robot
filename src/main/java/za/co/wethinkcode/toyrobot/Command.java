@@ -40,6 +40,8 @@ public abstract class Command {
                 return new RightCommand();
             case "left":
                 return new LeftCommand();
+            case "sprint":
+                return new SprintCommand(args[1]);
             default:
                 throw new IllegalArgumentException("Unsupported command: " + instruction);
         }

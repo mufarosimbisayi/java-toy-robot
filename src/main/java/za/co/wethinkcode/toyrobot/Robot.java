@@ -58,6 +58,30 @@ public class Robot {
         return false;
     }
 
+    public boolean canUpdate(int nrSteps){
+        int newX = this.position.getX();
+        int newY = this.position.getY();
+
+        if (Direction.NORTH.equals(this.currentDirection)) {
+            newY = newY + nrSteps;
+        }
+        else if (Direction.EAST.equals(this.currentDirection)) {
+            newX = newX - nrSteps;
+        }
+        else if (Direction.SOUTH.equals(this.currentDirection)) {
+            newY = newY - nrSteps;
+        }
+        else if (Direction.WEST.equals(this.currentDirection)) {
+            newX = newX + nrSteps;
+        }
+
+        Position newPosition = new Position(newX, newY);
+        if (newPosition.isIn(TOP_LEFT,BOTTOM_RIGHT)){
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public String toString() {
        return "[" + this.position.getX() + "," + this.position.getY() + "] "

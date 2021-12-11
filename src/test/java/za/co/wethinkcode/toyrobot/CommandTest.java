@@ -71,14 +71,42 @@ class CommandTest {
         assertEquals(Direction.WEST, robot.getDirection());
     }
 
+
     @Test
     void getLeftName() {
+        LeftCommand leftCommand = new LeftCommand();
+        assertEquals("left", leftCommand.getName());
+    }
+
+    @Test
+    void executeLeftCommand() {
         LeftCommand leftCommand = new LeftCommand();
         Robot robot = new Robot("HAL");
         leftCommand.execute(robot);
         assertEquals(new Position(0,0), robot.getPosition());
         assertEquals(Direction.EAST, robot.getDirection());
         assertEquals("Turned left.", robot.getStatus());
+    }
+
+    @Test
+    void getSprintName() {
+        SprintCommand sprintCommand = new SprintCommand("5");
+        assertEquals("sprint", sprintCommand.getName());
+        assertEquals("5", sprintCommand.getArgument());
+    }
+
+    @Test
+    void executeSprintCommand() {
+        Robot robot = new Robot("HAL");
+        SprintCommand sprintCommand = new SprintCommand("5");
+        sprintCommand.execute(robot);
+        assertEquals(new Position(0,15), robot.getPosition());
+        assertEquals("Moved forward by 5 steps.\n" +
+                        "Moved forward by 4 steps.\n" +
+                        "Moved forward by 3 steps.\n" +
+                        "Moved forward by 2 steps.\n" +
+                        "Moved forward by 1 steps.",
+                        robot.getStatus());
     }
 
     @Test
@@ -120,6 +148,9 @@ class CommandTest {
                         //<5>
         Command left = Command.create("left");
         assertEquals("left", left.getName());
+                        //<6>
+        Command sprint = Command.create("sprint 5");
+        assertEquals("sprint", sprint.getName());
     }
 
     @Test
