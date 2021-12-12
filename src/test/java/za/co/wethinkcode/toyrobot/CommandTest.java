@@ -95,7 +95,7 @@ class CommandTest {
         assertEquals("5", sprintCommand.getArgument());
     }
 
-/*    @Test
+    @Test
     void executeSprintCommand() {
         Robot robot = new Robot("HAL");
         SprintCommand sprintCommand = new SprintCommand("5");
@@ -108,7 +108,7 @@ class CommandTest {
                         "Moved forward by 1 steps.",
                         robot.getStatus());
     }
-*/
+
     @Test
     void getHelpName() {
         Command test = new HelpCommand();                                                               //<1>

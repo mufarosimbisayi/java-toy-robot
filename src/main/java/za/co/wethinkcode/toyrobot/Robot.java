@@ -13,12 +13,14 @@ public class Robot {
     private Direction currentDirection;
     private String status;
     private String name;
+    private String cache;
 
     public Robot(String name) {
         this.name = name;
         this.status = "Ready";
         this.position = CENTRE;
         this.currentDirection = Direction.NORTH;
+        this.cache = "";
     }
 
     public String getStatus() {
@@ -84,8 +86,14 @@ public class Robot {
 
     @Override
     public String toString() {
-       return "[" + this.position.getX() + "," + this.position.getY() + "] "
+        if (getCache().isEmpty()) {
+            return "[" + this.position.getX() + "," + this.position.getY() + "] "
                + this.name + "> " + this.status;
+        } else {
+            String localStatus = getCache();
+            clearCache();
+            return localStatus;
+        }
     }
 
     public Position getPosition() {
@@ -106,5 +114,17 @@ public class Robot {
 
     public Direction getDirection() {
         return this.currentDirection;
+    }
+
+    public void setCache(String cache) {
+        this.cache = cache;
+    }
+
+    public String getCache() {
+        return this.cache;
+    }
+
+    public void clearCache() {
+        this.cache = "";
     }
 }

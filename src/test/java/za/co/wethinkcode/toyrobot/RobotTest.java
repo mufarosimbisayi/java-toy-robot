@@ -84,7 +84,7 @@ class RobotTest {
         assertEquals(new Position(-10,0), robot.getPosition());
     }
 
-/*    @Test
+    @Test
     void sprint() {
         Robot robot = new Robot("test");
         assertTrue(robot.handleCommand(new SprintCommand("5")));
@@ -93,10 +93,10 @@ class RobotTest {
                     "Moved forward by 4 steps.\n" +
                     "Moved forward by 3 steps.\n" +
                     "Moved forward by 2 steps.\n" +
-                    "Moved forward by 1 steps.)\n",
+                    "Moved forward by 1 steps.",
                     robot.getStatus());
     }
-*/
+
     @Test
     void help() {
         Robot robot = new Robot("CrashTestDummy");
@@ -114,5 +114,14 @@ class RobotTest {
         Robot robot = new Robot("test");
         robot.setDirection(Direction.SOUTH);
         assertEquals(Direction.SOUTH, robot.getDirection());
+    }
+
+    @Test
+    void setGetAndClearCache() {
+        Robot robot = new Robot("test");
+        robot.setCache("This is a test.");
+        assertEquals("This is a test.", robot.getCache());
+        robot.clearCache();
+        assertEquals("", robot.getCache());
     }
 }
