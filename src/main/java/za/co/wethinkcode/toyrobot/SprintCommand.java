@@ -12,7 +12,10 @@ public class SprintCommand extends Command {
             for (int i = Integer.parseInt(getArgument()); i > 0; i--) {
                 target.handleCommand(Command.create("forward " + i));
             }
+        } else {
+            target.setStatus("Sorry, I cannot go outside my safe zone.");
         }
+
         return true;
     }
 
