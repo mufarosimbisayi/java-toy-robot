@@ -110,6 +110,11 @@ class CommandTest {
     }
 
     @Test
+    void getReplayOneName() {
+        ReplayCommand replayCommand = new ReplayCommand();
+        assertEquals("replay", replayCommand.getName());
+    }
+    @Test
     void getHelpName() {
         Command test = new HelpCommand();                                                               //<1>
         assertEquals("help", test.getName());
