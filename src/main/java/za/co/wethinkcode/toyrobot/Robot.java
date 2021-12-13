@@ -2,6 +2,7 @@ package za.co.wethinkcode.toyrobot;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.ArrayList;
 
 public class Robot {
     private final Position TOP_LEFT = new Position(-200,100);
@@ -9,6 +10,7 @@ public class Robot {
 
     public static final Position CENTRE = new Position(0,0);
 
+    private List<Command> commandHistory; 
     private Position position;
     private Direction currentDirection;
     private String status;
@@ -21,6 +23,7 @@ public class Robot {
         this.position = CENTRE;
         this.currentDirection = Direction.NORTH;
         this.cache = "";
+        this.commandHistory = new ArrayList<>();
     }
 
     public String getStatus() {
@@ -32,7 +35,9 @@ public class Robot {
     }
 
     public boolean handleCommand(Command command) {
-        return command.execute(this);
+        boolean state = command.execute(this);
+        addCommand(command);
+        return state;
     }
 
     public boolean updatePosition(int nrSteps){
@@ -126,5 +131,13 @@ public class Robot {
 
     public void clearCache() {
         this.cache = "";
+    }
+
+    public void addCommand(Command command) {
+        this.commandHistory.add(command);
+    }
+
+    public List<Command> getCommandHistory() {
+        return this.commandHistory;
     }
 }

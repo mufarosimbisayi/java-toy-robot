@@ -12,7 +12,7 @@ public class SprintCommand extends Command {
         int nrSteps = factorial(Integer.parseInt(getArgument()));
         if (target.canUpdate(nrSteps)) {
             for (int i = Integer.parseInt(getArgument()); i > 0; i--) {
-                target.handleCommand(Command.create("forward " + i));
+                Command.create("forward " + i).execute(target);
                 cache += target.toString() + "\n";
                 status += target.getStatus() + "\n";
             }

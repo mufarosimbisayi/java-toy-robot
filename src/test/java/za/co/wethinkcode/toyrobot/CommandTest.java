@@ -114,6 +114,21 @@ class CommandTest {
         ReplayCommand replayCommand = new ReplayCommand();
         assertEquals("replay", replayCommand.getName());
     }
+
+    @Test
+    void executeReplayCommand() {
+        Robot robot = new Robot("HAL");
+        ForwardCommand forwardCommand = new ForwardCommand("5");
+        ReplayCommand replayCommand = new ReplayCommand();
+        HelpCommand helpCommand = new HelpCommand();
+        robot.handleCommand(helpCommand);
+        robot.handleCommand(forwardCommand);
+        robot.handleCommand(forwardCommand);
+        replayCommand.execute(robot);
+        assertEquals(new Position(0,20), robot.getPosition());
+        assertEquals("Replayed 2 commands.", robot.getStatus());
+    }
+
     @Test
     void getHelpName() {
         Command test = new HelpCommand();                                                               //<1>
