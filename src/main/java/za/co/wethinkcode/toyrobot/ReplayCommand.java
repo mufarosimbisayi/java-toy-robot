@@ -1,5 +1,7 @@
 package za.co.wethinkcode.toyrobot;
 
+import java.util.*;
+
 public class ReplayCommand extends Command {
     public ReplayCommand() {
         super("replay");
@@ -11,6 +13,16 @@ public class ReplayCommand extends Command {
 
     @Override
     public boolean execute(Robot target) {
+        if (getArgument() == "all") {
+            replayAll(target);
+        }
+        else if (getArgument() == "reversed") {
+            replayReversed(target);
+        }
+        return true;
+    }
+
+    private void replayAll(Robot target) {
         String cache = "";
         int commands = 0;
         for (Command command: target.getCommandHistory()) {
@@ -22,7 +34,22 @@ public class ReplayCommand extends Command {
         }
         target.setCache(cache.substring(0, cache.length() - 1));
         target.setStatus("Replayed " + commands + " commands.");
-        return true;
+    }
+
+    private void replayReversed(Robot target) {
+        String cache = "";
+        int commands = 0;
+        List<Command> commandHistory = target.getCommandHistory();
+        Collections.reverse(commandHistory);
+        for (Command command: commandHistory) {
+            if (movementCommand(command)) {
+                command.execute(target);
+                cache += target.toString() + "\n";
+                commands++;
+            }
+        }
+        target.setCache(cache.substring(0, cache.length() - 1));
+        target.setStatus("Replayed " + commands + " commands reversed.");
     }
 
     private boolean movementCommand(Command command) {

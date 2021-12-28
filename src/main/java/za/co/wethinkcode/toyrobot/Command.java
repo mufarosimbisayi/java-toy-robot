@@ -42,6 +42,13 @@ public abstract class Command {
                 return new LeftCommand();
             case "sprint":
                 return new SprintCommand(args[1]);
+            case "replay":
+                if (args.length == 1) {
+                    return new ReplayCommand("all");
+                }
+                else {
+                    return new ReplayCommand(args[1]);
+                }
             default:
                 throw new IllegalArgumentException("Unsupported command: " + instruction);
         }

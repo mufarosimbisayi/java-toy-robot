@@ -111,22 +111,42 @@ class CommandTest {
 
     @Test
     void getReplayOneName() {
-        ReplayCommand replayCommand = new ReplayCommand();
+        ReplayCommand replayCommand = new ReplayCommand("all");
         assertEquals("replay", replayCommand.getName());
+    }
+
+    @Test
+    void getReplayReversedArgument() {
+        ReplayCommand replayCommand = new ReplayCommand("reversed");
+        assertEquals("reversed", replayCommand.getArgument());
     }
 
     @Test
     void executeReplayCommand() {
         Robot robot = new Robot("HAL");
         ForwardCommand forwardCommand = new ForwardCommand("5");
-        ReplayCommand replayCommand = new ReplayCommand();
+        ReplayCommand replayCommand = new ReplayCommand("all");
         HelpCommand helpCommand = new HelpCommand();
         robot.handleCommand(helpCommand);
         robot.handleCommand(forwardCommand);
         robot.handleCommand(forwardCommand);
         replayCommand.execute(robot);
-        assertEquals(new Position(0,20), robot.getPosition());
         assertEquals("Replayed 2 commands.", robot.getStatus());
+        assertEquals(new Position(0,20), robot.getPosition());
+    }
+
+    @Test
+    void executeReplayReversedCommand() {
+        Robot robot = new Robot("HAL");
+        ForwardCommand forwardCommand = new ForwardCommand("5");
+        ReplayCommand replayCommand = new ReplayCommand("reversed");
+        HelpCommand helpCommand = new HelpCommand();
+        robot.handleCommand(helpCommand);
+        robot.handleCommand(forwardCommand);
+        robot.handleCommand(forwardCommand);
+        replayCommand.execute(robot);
+        assertEquals("Replayed 2 commands reversed.", robot.getStatus());
+        assertEquals(new Position(0,20), robot.getPosition());
     }
 
     @Test
@@ -171,6 +191,9 @@ class CommandTest {
                         //<6>
         Command sprint = Command.create("sprint 5");
         assertEquals("sprint", sprint.getName());
+                        //<7>
+        Command replay = Command.create("replay");
+        assertEquals("replay", replay.getName());
     }
 
     @Test
