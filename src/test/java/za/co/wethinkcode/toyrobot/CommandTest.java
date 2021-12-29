@@ -1,6 +1,5 @@
 package za.co.wethinkcode.toyrobot;
 
-
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -148,6 +147,40 @@ class CommandTest {
         assertEquals("Replayed 2 commands reversed.", robot.getStatus());
         assertEquals(new Position(0,20), robot.getPosition());
     }
+
+    @Test
+    void executeReplayNCommand() {
+        Robot robot = new Robot("HAL");
+        ForwardCommand forwardCommand = new ForwardCommand("5");
+        ReplayCommand replayCommand = new ReplayCommand("2");
+        HelpCommand helpCommand = new HelpCommand();
+        robot.handleCommand(helpCommand);
+        robot.handleCommand(forwardCommand);
+        robot.handleCommand(forwardCommand);
+        robot.handleCommand(forwardCommand);
+        robot.handleCommand(forwardCommand);
+        replayCommand.execute(robot);
+        assertEquals("Replayed 2 commands.", robot.getStatus());
+        assertEquals(new Position(0,30), robot.getPosition());
+    }
+
+    @Test
+    void executeReplayNMCommand() {
+        Robot robot = new Robot("HAL");
+        ForwardCommand forwardCommand = new ForwardCommand("5");
+        ForwardCommand forward = new ForwardCommand("3");
+        ReplayCommand replayCommand = new ReplayCommand("4-2");
+        HelpCommand helpCommand = new HelpCommand();
+        robot.handleCommand(helpCommand);
+        robot.handleCommand(forwardCommand);
+        robot.handleCommand(forward);
+        robot.handleCommand(forwardCommand);
+        robot.handleCommand(forward);
+        replayCommand.execute(robot);
+        assertEquals("Replayed 2 commands.", robot.getStatus());
+        assertEquals(new Position(0,24), robot.getPosition());
+    }
+
 
     @Test
     void getHelpName() {

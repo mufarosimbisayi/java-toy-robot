@@ -19,6 +19,15 @@ public class ReplayCommand extends Command {
         else if (getArgument() == "reversed") {
             replayReversed(target);
         }
+        else {
+            String[] args = getArgument().trim().split("-");
+            if (args.length == 1) {
+                replayN(target);
+            }
+            else if (args.length == 2) {
+                replayNM(target);
+            }
+        }
         return true;
     }
 
@@ -50,6 +59,45 @@ public class ReplayCommand extends Command {
         }
         target.setCache(cache.substring(0, cache.length() - 1));
         target.setStatus("Replayed " + commands + " commands reversed.");
+    }
+
+    private void replayN(Robot target) {
+        String cache = "";
+        int commands = 0;
+        int limit = Integer.parseInt(getArgument());
+        List<Command> commandHistory = target.getCommandHistory();
+        for (Command command: commandHistory) {
+            if (movementCommand(command)) {
+                if (commands >= limit) {
+                    break;
+                }
+                command.execute(target);
+                cache += target.toString() + "\n";
+                commands++;
+            }
+        }
+        target.setCache(cache.substring(0, cache.length() - 1));
+        target.setStatus("Replayed " + commands + " commands.");
+    }
+
+    private void replayNM(Robot target) {
+        String cache = "";
+        int commands = 0;
+        String args[] = getArgument().trim().split("-");
+        int upperLimit = Integer.parseInt(args[0]);
+        int lowerLimit = Integer.parseInt(args[1]);
+        List<Command> commandHistory = target.getCommandHistory();
+        while (upperLimit > lowerLimit) {
+            Command command = commandHistory.get(upperLimit - 1);
+            if (movementCommand(command)) {
+                command.execute(target);
+                cache += target.toString() + "\n";
+                commands++;
+            }
+            upperLimit--;
+        }
+        target.setCache(cache.substring(0, cache.length() - 1));
+        target.setStatus("Replayed " + commands + " commands.");
     }
 
     private boolean movementCommand(Command command) {
