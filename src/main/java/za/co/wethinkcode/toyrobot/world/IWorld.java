@@ -74,7 +74,7 @@ public interface IWorld {
     /**
      * @return the list of obstacles, or an empty list if no obstacles exist.
      */
-    List<Obstacle> getObstacles();
+    /*List<Obstacle> getObstacles();*/
 
     /**
      * Gives opportunity to world to draw or list obstacles.
