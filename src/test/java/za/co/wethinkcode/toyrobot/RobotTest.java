@@ -10,7 +10,7 @@ class RobotTest {
     @Test
     void initialPosition() {
         Robot robot = new Robot("CrashTestDummy");
-        assertEquals(Robot.CENTRE, robot.getPosition());
+        assertEquals(new Position(0,0), robot.getPosition());
         assertEquals(Direction.NORTH, robot.getCurrentDirection());
     }
 
@@ -32,7 +32,7 @@ class RobotTest {
         Robot robot = new Robot("CrashTestDummy");
         ForwardCommand command = new ForwardCommand("10");
         assertTrue(robot.handleCommand(command));
-        Position expectedPosition = new Position(Robot.CENTRE.getX(), Robot.CENTRE.getY() + 10);
+        Position expectedPosition = new Position(0, 10);
         assertEquals(expectedPosition, robot.getPosition());
         assertEquals("Moved forward by 10 steps.", robot.getStatus());
     }
@@ -60,7 +60,7 @@ class RobotTest {
     void tooFarForward() {
         Robot robot = new Robot("CrashTestDummy");
         assertTrue(robot.handleCommand(new ForwardCommand("1000")));
-        assertEquals(Robot.CENTRE, robot.getPosition());
+        assertEquals(new Position(0,0), robot.getPosition());
         assertEquals("Sorry, I cannot go outside my safe zone.", robot.getStatus());
     }
 

@@ -32,7 +32,7 @@ class CommandTest {
         Robot robot = new Robot("CrashTestDummy");
         Command forward100 = Command.create("forward 10");
         assertTrue(forward100.execute(robot));
-        Position expectedPosition = new Position(Robot.CENTRE.getX(), Robot.CENTRE.getY() + 10);
+        Position expectedPosition = new Position(0, 10);
         assertEquals(expectedPosition, robot.getPosition());
         assertEquals("Moved forward by 10 steps.", robot.getStatus());
     }

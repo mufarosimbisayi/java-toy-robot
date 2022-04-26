@@ -3,12 +3,11 @@ package za.co.wethinkcode.toyrobot;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
+import za.co.wethinkcode.toyrobot.world.*;
 
 public class Robot {
-    private final Position TOP_LEFT = new Position(-200,100);
-    private final Position BOTTOM_RIGHT = new Position(100,-200);
 
-    public static final Position CENTRE = new Position(0,0);
+    private AbstractWorld world;
 
     private List<Command> commandHistory; 
     private Position position;
@@ -20,10 +19,22 @@ public class Robot {
     public Robot(String name) {
         this.name = name;
         this.status = "Ready";
-        this.position = CENTRE;
+        this.position = world.CENTRE;
         this.currentDirection = Direction.NORTH;
         this.cache = "";
         this.commandHistory = new ArrayList<>();
+        this.world = new TextWorld();
+    }
+
+    public void setWorld(String worldName) {
+        if (worldName == "turtle") {
+            this.world = new TextWorld();
+        }
+        this.world.showObstacles();
+    }
+
+    public AbstractWorld getWorld() {
+        return this.world;
     }
 
     public String getStatus() {
@@ -43,6 +54,7 @@ public class Robot {
     public boolean updatePosition(int nrSteps){
         int newX = this.position.getX();
         int newY = this.position.getY();
+        boolean update = true;
 
         if (Direction.NORTH.equals(this.currentDirection)) {
             newY = newY + nrSteps;
@@ -58,11 +70,20 @@ public class Robot {
         }
 
         Position newPosition = new Position(newX, newY);
-        if (newPosition.isIn(TOP_LEFT,BOTTOM_RIGHT)){
-            this.position = newPosition;
-            return true;
+        if (!world.isNewPositionAllowed(newPosition)){
+            setStatus("Sorry, I cannot go outside my safe zone.");
+            update = false;
         }
-        return false;
+        for (Obstacle obstacle: world.getObstacles()) {
+            if (obstacle.blocksPath(this.position, newPosition)) {
+                setStatus("Sorry, there is an obstacle in the way.");
+                update = false;
+            }
+        }
+        if (update) {
+            this.position = newPosition;
+        }
+        return update;
     }
 
     public boolean canUpdate(int nrSteps){
@@ -83,7 +104,7 @@ public class Robot {
         }
 
         Position newPosition = new Position(newX, newY);
-        if (newPosition.isIn(TOP_LEFT,BOTTOM_RIGHT)){
+        if (world.isNewPositionAllowed(newPosition)){
             return true;
         }
         return false;

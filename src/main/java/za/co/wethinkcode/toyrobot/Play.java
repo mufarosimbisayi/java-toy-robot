@@ -9,11 +9,12 @@ public class Play {
         scanner = new Scanner(System.in);
         Robot robot;
 
+        String world = getInput("Would you like to use the text or turtle world?");
         String name = getInput("What do you want to name your robot?");
         robot = new Robot(name);
         System.out.println("Hello Kiddo!");
+        robot.setWorld(world);
 
-        System.out.println(robot.toString());
 
         Command command;
         boolean shouldContinue = true;

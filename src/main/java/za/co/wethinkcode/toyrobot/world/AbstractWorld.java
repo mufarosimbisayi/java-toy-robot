@@ -1,12 +1,13 @@
 package za.co.wethinkcode.toyrobot.world;
 
 import za.co.wethinkcode.toyrobot.Position;
-
+import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractWorld implements IWorld {
 
-    public static final Position robotPosition = CENTRE;
+    public Position robotPosition = CENTRE;
     private final Position TOP_LEFT = new Position(-200,100);
     private final Position BOTTOM_RIGHT = new Position(100, -200);
 
@@ -35,6 +36,7 @@ public abstract class AbstractWorld implements IWorld {
 
         Position newPosition = new Position(newX, newY);
         if (isNewPositionAllowed(newPosition)) {
+            this.robotPosition = newPosition;
             return UpdateResponse.SUCCESS;
         }
         return UpdateResponse.FAILED_OUTSIDE_WORLD;
@@ -89,5 +91,9 @@ public abstract class AbstractWorld implements IWorld {
 
     public void showObstacles() {
     
+    }
+
+    public List<Obstacle> getObstacles() {
+        return new ArrayList<Obstacle>();
     }
 }
