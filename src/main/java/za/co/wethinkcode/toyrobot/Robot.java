@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
 import za.co.wethinkcode.toyrobot.world.*;
+import za.co.wethinkcode.toyrobot.maze.*;
 
 public class Robot {
 
@@ -23,12 +24,27 @@ public class Robot {
         this.currentDirection = Direction.NORTH;
         this.cache = "";
         this.commandHistory = new ArrayList<>();
-        this.world = new TextWorld();
+        this.world = new TextWorld(new EmptyMaze());
     }
 
-    public void setWorld(String worldName) {
-        if (worldName == "turtle") {
-            this.world = new TextWorld();
+    public void setWorld(String worldType, String mazeType) {
+        switch (mazeType) {
+            case "empty":
+                this.world = new TextWorld(new EmptyMaze());
+                System.out.println("Loaded EmptyMaze.");
+                break;
+            case "simple":
+                this.world = new TextWorld(new SimpleMaze());
+                System.out.println("Loaded SimpleMaze.");
+                break;
+            case "designed":
+                this.world = new TextWorld(new DesignedMaze());
+                System.out.println("Loaded DesignedMaze.");
+                break;
+            default:
+                this.world = new TextWorld(new RandomMaze());
+                System.out.println("Loaded RandomMaze.");
+                break;
         }
         this.world.showObstacles();
     }
@@ -74,11 +90,9 @@ public class Robot {
             setStatus("Sorry, I cannot go outside my safe zone.");
             update = false;
         }
-        for (Obstacle obstacle: world.getObstacles()) {
-            if (obstacle.blocksPath(this.position, newPosition)) {
-                setStatus("Sorry, there is an obstacle in the way.");
-                update = false;
-            }
+        if (this.world.maze.blocksPath(this.position, newPosition)) {
+            setStatus("Sorry, there is an obstacle in the way.");
+            update = false;
         }
         if (update) {
             this.position = newPosition;
@@ -104,10 +118,13 @@ public class Robot {
         }
 
         Position newPosition = new Position(newX, newY);
-        if (world.isNewPositionAllowed(newPosition)){
-            return true;
+        if (!world.isNewPositionAllowed(newPosition)){
+            return false;
         }
-        return false;
+        if (this.world.maze.blocksPath(this.position, newPosition)) {
+            return false;
+        }
+        return true;
     }
 
     @Override

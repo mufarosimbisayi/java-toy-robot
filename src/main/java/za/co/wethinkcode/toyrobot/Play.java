@@ -6,14 +6,33 @@ public class Play {
     static Scanner scanner;
 
     public static void main(String[] args) {
+        
+        String worldType;
+        String mazeType;
+
+        //Set the world type
+        try {
+            worldType = args[0].strip();
+        }
+        catch (Exception e) {
+            worldType = "text";
+        }
+
+        //Set maze Type
+        try {
+            mazeType = args[1].strip();
+        }
+        catch (Exception e) {
+            mazeType = "random";
+        }
+
         scanner = new Scanner(System.in);
         Robot robot;
 
-        String world = getInput("Would you like to use the text or turtle world?");
         String name = getInput("What do you want to name your robot?");
         robot = new Robot(name);
         System.out.println("Hello Kiddo!");
-        robot.setWorld(world);
+        robot.setWorld(worldType.toLowerCase(), mazeType.toLowerCase());
 
 
         Command command;
