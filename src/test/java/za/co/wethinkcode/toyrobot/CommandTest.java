@@ -49,7 +49,7 @@ class CommandTest {
         Robot robot = new Robot("CrashTestDummy");
         Command mazerun = Command.create("mazerun top");
         assertTrue(mazerun.execute(robot));
-        assertEquals("Test mazerunner through status", robot.getStatus());
+        assertEquals("Starting maze run..", robot.getStatus());
     }
 
     @Test
