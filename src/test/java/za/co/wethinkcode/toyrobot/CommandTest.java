@@ -37,6 +37,20 @@ class CommandTest {
         assertEquals("Moved forward by 10 steps.", robot.getStatus());
     }
 
+    @Test
+    void getMazeRunName() {
+        MazeRunCommand test = new MazeRunCommand("top");
+        assertEquals("mazerun", test.getName());
+        assertEquals("top", test.getArgument());
+    }
+
+    @Test
+    void executeMazeRun() {
+        Robot robot = new Robot("CrashTestDummy");
+        Command mazerun = Command.create("mazerun top");
+        assertTrue(mazerun.execute(robot));
+        assertEquals("Test mazerunner through status", robot.getStatus());
+    }
 
     @Test
     void getBackName() {

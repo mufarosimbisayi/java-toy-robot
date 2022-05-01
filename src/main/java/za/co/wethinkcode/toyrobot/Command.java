@@ -49,6 +49,8 @@ public abstract class Command {
                 else {
                     return new ReplayCommand(args[1]);
                 }
+            case "mazerun":
+                return new MazeRunCommand(args[1]);
             default:
                 throw new IllegalArgumentException("Unsupported command: " + instruction);
         }
