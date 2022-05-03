@@ -14,7 +14,21 @@ public class MazeRunCommand extends Command {
         robot.setStatus("Starting maze run..");
         SimpleMazeRunner mazeRunner = new SimpleMazeRunner();
         mazeRunner.mazeRun(robot, mapDirection(this.getArgument()));
+        robot.setStatus("I am at the " + this.getArgument() + " edge.");
         return true;
+    }
+
+    private int calculateCost(Robot robot) {
+        int countNonMazeRunCommands = 0;
+        int countAllCommands = 0;
+
+        for(Command command: robot.getCommandHistory()) {
+            countAllCommands++;
+            if(command.getName().equals("mazerun")) {
+                countNonMazeRunCommands = countAllCommands;
+            }
+        }
+        return countAllCommands - countNonMazeRunCommands;
     }
 
     private IWorld.Direction mapDirection(String side) {
