@@ -6,8 +6,9 @@ public class ForwardCommand extends Command {
         int nrSteps = Integer.parseInt(getArgument());
         if (target.updatePosition(nrSteps)){
             target.setStatus("Moved forward by "+nrSteps+" steps.");
+            return true;
         }
-        return true;
+        return false;
     }
 
     public ForwardCommand(String argument) {

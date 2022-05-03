@@ -1,5 +1,8 @@
 package za.co.wethinkcode.toyrobot;
 
+import za.co.wethinkcode.toyrobot.world.IWorld;
+import za.co.wethinkcode.toyrobot.maze.SimpleMazeRunner;
+
 public class MazeRunCommand extends Command {
     
     public MazeRunCommand(String argument) {
@@ -7,35 +10,24 @@ public class MazeRunCommand extends Command {
     }
 
     @Override
-    public boolean execute(Robot target) {
-        target.setStatus("Starting maze run..");
+    public boolean execute(Robot robot) {
+        robot.setStatus("Starting maze run..");
+        SimpleMazeRunner mazeRunner = new SimpleMazeRunner();
+        mazeRunner.mazeRun(robot, mapDirection(this.getArgument()));
         return true;
     }
 
-    private void setEdge(Robot target) {
-        switch (this.getArgument()) {
+    private IWorld.Direction mapDirection(String side) {
+        switch (side) {
             case "top":
-                target.setDirection(Direction.NORTH);
+                return IWorld.Direction.UP;
             case "bottom":
-                target.setDirection(Direction.SOUTH);
+                return IWorld.Direction.DOWN;
             case "left":
-                target.setDirection(Direction.EAST);
-            default:
-                target.setDirection(Direction.WEST);
+                return IWorld.Direction.LEFT;
+            case "right":
+                return IWorld.Direction.RIGHT;
         }
-    }
-
-    private boolean isAtEdge(Robot target) {
-        int X = target.getPosition().getX();
-        int Y = target.getPosition().getY();
-
-        if (X == 100 || X == -200) {
-            return true;
-        }
-        else if (Y == 100 || Y == -200) {
-            return true;
-        }
-
-        return false;
+        return IWorld.Direction.UP;
     }
 }

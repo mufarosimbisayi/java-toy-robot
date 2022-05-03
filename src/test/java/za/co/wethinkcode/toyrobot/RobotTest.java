@@ -59,7 +59,7 @@ class RobotTest {
     @Test
     void tooFarForward() {
         Robot robot = new Robot("CrashTestDummy");
-        assertTrue(robot.handleCommand(new ForwardCommand("1000")));
+        assertFalse(robot.handleCommand(new ForwardCommand("1000")));
         assertEquals(new Position(0,0), robot.getPosition());
         assertEquals("Sorry, I cannot go outside my safe zone.", robot.getStatus());
     }
