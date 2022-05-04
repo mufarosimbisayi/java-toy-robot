@@ -14,7 +14,8 @@ public class MazeRunCommand extends Command {
         robot.setStatus("Starting maze run..");
         SimpleMazeRunner mazeRunner = new SimpleMazeRunner();
         mazeRunner.mazeRun(robot, mapDirection(this.getArgument()));
-        robot.setStatus("I am at the " + this.getArgument() + " edge.");
+        String status = "I am at the " + this.getArgument() + " edge. (Cost: " + calculateCost(robot) + " steps)";
+        robot.setStatus(status);
         return true;
     }
 

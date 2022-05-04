@@ -12,7 +12,7 @@ public class SimpleMazeRunner implements MazeRunner {
     }
 
     public boolean mazeRun(Robot robot, IWorld.Direction edgeDirection) {
-        Command moveForward = Command.create("forward 1");
+        Command moveForward = Command.create("forward 5");
         Command turnRight = Command.create("right");
         Command turnLeft = Command.create("left");
         int balance = 0;
