@@ -163,6 +163,38 @@ class CommandTest {
     }
 
     @Test
+    void executeReplayReversedNCommand() {
+        Robot robot = new Robot("HAL");
+        ForwardCommand forwardCommand = new ForwardCommand("5");
+        ForwardCommand forwardCommand2 = new ForwardCommand("10");
+        ReplayCommand replayCommand = new ReplayCommand("reversed 1");
+        HelpCommand helpCommand = new HelpCommand();
+        robot.handleCommand(helpCommand);
+        robot.handleCommand(forwardCommand);
+        robot.handleCommand(forwardCommand);
+        robot.handleCommand(forwardCommand2);
+        replayCommand.execute(robot);
+        assertEquals("Replayed 1 commands reversed.", robot.getStatus());
+        assertEquals(new Position(0,30), robot.getPosition());
+    }
+
+    @Test
+    void executeReplayReversedNMCommand() {
+        Robot robot = new Robot("HAL");
+        ForwardCommand forwardCommand = new ForwardCommand("5");
+        ForwardCommand forwardCommand2 = new ForwardCommand("10");
+        ReplayCommand replayCommand = new ReplayCommand("reversed 3-1");
+        HelpCommand helpCommand = new HelpCommand();
+        robot.handleCommand(helpCommand);
+        robot.handleCommand(forwardCommand);
+        robot.handleCommand(forwardCommand);
+        robot.handleCommand(forwardCommand2);
+        replayCommand.execute(robot);
+        assertEquals("Replayed 2 commands reversed.", robot.getStatus());
+        assertEquals(new Position(0,30), robot.getPosition());
+    }
+
+    @Test
     void executeReplayNCommand() {
         Robot robot = new Robot("HAL");
         ForwardCommand forwardCommand = new ForwardCommand("5");

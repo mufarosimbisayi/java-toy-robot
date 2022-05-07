@@ -21,22 +21,22 @@ public class SquareObstacle implements Obstacle {
     }
 
     public int getBottomLeftX() {
-        return this.X - 5;
+        return this.X;
     }
 
     public int getBottomLeftY() {
-        return this.Y - 5;
+        return this.Y;
     }
 
     public int getSize() {
-        return this.X - getBottomLeftX();
+        return 5;
     }
 
     public boolean blocksPosition(Position position) {
-        boolean firstBoolean = position.getX() >= (this.X - getSize());
-        boolean secondBoolean = position.getX() <= (this.X + getSize());
-        boolean thirdBoolean = position.getY() >= (this.Y - getSize());
-        boolean fourthBoolean = position.getY() <= (this.Y + getSize());
+        boolean firstBoolean = position.getX() >= this.X;
+        boolean secondBoolean = position.getX() < (this.X + getSize());
+        boolean thirdBoolean = position.getY() >= this.Y;
+        boolean fourthBoolean = position.getY() < (this.Y + getSize());
         return (firstBoolean && secondBoolean && thirdBoolean && fourthBoolean);
     }
 

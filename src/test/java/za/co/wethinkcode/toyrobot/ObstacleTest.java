@@ -18,7 +18,7 @@ public class ObstacleTest {
     @Test
     public void blocksPosition() {
         SquareObstacle obstacle = new SquareObstacle(0,0);
-        assertTrue(obstacle.blocksPosition(new Position(-1,-1)));
-        assertFalse(obstacle.blocksPosition(new Position(-10,-1)));
+        assertTrue(obstacle.blocksPosition(new Position(1,1)));
+        assertFalse(obstacle.blocksPosition(new Position(-1,-1)));
     }
 }

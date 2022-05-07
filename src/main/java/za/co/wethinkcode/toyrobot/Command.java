@@ -24,6 +24,10 @@ public abstract class Command {
         return this.argument;
     }
 
+    public void setArgument(String newArgument) {
+        this.argument = newArgument;
+    }
+
     public static Command create(String instruction) {
         String[] args = instruction.toLowerCase().trim().split(" ");
         switch (args[0]){
@@ -46,8 +50,11 @@ public abstract class Command {
                 if (args.length == 1) {
                     return new ReplayCommand("all");
                 }
-                else {
+                else if(args.length == 2) {
                     return new ReplayCommand(args[1]);
+                }
+                else if(args.length == 3) {
+                    return new ReplayCommand(args[1] + " " + args[2]);
                 }
             case "mazerun":
                 return new MazeRunCommand(args[1]);

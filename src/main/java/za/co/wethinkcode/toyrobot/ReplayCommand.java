@@ -3,6 +3,9 @@ package za.co.wethinkcode.toyrobot;
 import java.util.*;
 
 public class ReplayCommand extends Command {
+
+    private String reverseStatus = "";
+
     public ReplayCommand() {
         super("replay");
     }
@@ -13,11 +16,18 @@ public class ReplayCommand extends Command {
 
     @Override
     public boolean execute(Robot target) {
-        if (getArgument() == "all") {
-            replayAll(target);
+
+        if(getArgument().contains("reversed")) {
+            reverseStatus = " reversed";
+            String newArgument = getArgument().replace("reversed", "");
+            if(!newArgument.equals("")) {
+                newArgument = newArgument.trim();
+            }
+            setArgument(newArgument);
         }
-        else if (getArgument() == "reversed") {
-            replayReversed(target);
+
+        if (getArgument().equals("all") || getArgument().equals("")) {
+            replayAll(target);
         }
         else {
             String[] args = getArgument().trim().split("-");
@@ -34,22 +44,10 @@ public class ReplayCommand extends Command {
     private void replayAll(Robot target) {
         String cache = "";
         int commands = 0;
-        for (Command command: target.getCommandHistory()) {
-            if (movementCommand(command)) {
-                command.execute(target);
-                cache += target.toString() + "\n";
-                commands++;
-            }
-        }
-        target.setCache(cache.substring(0, cache.length() - 1));
-        target.setStatus("Replayed " + commands + " commands.");
-    }
-
-    private void replayReversed(Robot target) {
-        String cache = "";
-        int commands = 0;
         List<Command> commandHistory = target.getCommandHistory();
-        Collections.reverse(commandHistory);
+        if(reverseStatus.equals(" reversed")) {
+            Collections.reverse(commandHistory);
+        }
         for (Command command: commandHistory) {
             if (movementCommand(command)) {
                 command.execute(target);
@@ -58,7 +56,7 @@ public class ReplayCommand extends Command {
             }
         }
         target.setCache(cache.substring(0, cache.length() - 1));
-        target.setStatus("Replayed " + commands + " commands reversed.");
+        target.setStatus("Replayed " + commands + " commands" + reverseStatus + ".");
     }
 
     private void replayN(Robot target) {
@@ -66,6 +64,9 @@ public class ReplayCommand extends Command {
         int commands = 0;
         int limit = Integer.parseInt(getArgument());
         List<Command> commandHistory = target.getCommandHistory();
+        if(reverseStatus.equals(" reversed")) {
+            Collections.reverse(commandHistory);
+        }
         for (Command command: commandHistory) {
             if (movementCommand(command)) {
                 if (commands >= limit) {
@@ -77,7 +78,7 @@ public class ReplayCommand extends Command {
             }
         }
         target.setCache(cache.substring(0, cache.length() - 1));
-        target.setStatus("Replayed " + commands + " commands.");
+        target.setStatus("Replayed " + commands + " commands" + reverseStatus + ".");
     }
 
     private void replayNM(Robot target) {
@@ -87,6 +88,10 @@ public class ReplayCommand extends Command {
         int upperLimit = Integer.parseInt(args[0]);
         int lowerLimit = Integer.parseInt(args[1]);
         List<Command> commandHistory = target.getCommandHistory();
+        List<Command> newCommandHistory = new ArrayList<Command>();
+        if(reverseStatus.equals(" reversed")) {
+            Collections.reverse(commandHistory);
+        }
         while (upperLimit > lowerLimit) {
             Command command = commandHistory.get(upperLimit - 1);
             if (movementCommand(command)) {
@@ -97,7 +102,7 @@ public class ReplayCommand extends Command {
             upperLimit--;
         }
         target.setCache(cache.substring(0, cache.length() - 1));
-        target.setStatus("Replayed " + commands + " commands.");
+        target.setStatus("Replayed " + commands + " commands" + reverseStatus + ".");
     }
 
     private boolean movementCommand(Command command) {

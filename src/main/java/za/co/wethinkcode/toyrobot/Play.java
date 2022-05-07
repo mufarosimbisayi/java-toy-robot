@@ -35,13 +35,17 @@ public class Play {
         robot.setWorld(worldType.toLowerCase(), mazeType.toLowerCase());
 
 
-        Command command;
+        Command command = Command.create("help");
         boolean shouldContinue = true;
         do {
+            shouldContinue = true;
             String instruction = getInput(robot.getName() + "> What must I do next?").strip().toLowerCase();
             try {
                 command = Command.create(instruction);
-                shouldContinue = robot.handleCommand(command);
+                robot.handleCommand(command);
+                if(command.getName().equals("off") || command.getName().equals("shutdown")) {
+                    shouldContinue = false;
+                }
             } catch (IllegalArgumentException e) {
                 robot.setStatus("Sorry, I did not understand '" + instruction + "'.");
             }
