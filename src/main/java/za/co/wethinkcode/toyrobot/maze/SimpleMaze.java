@@ -12,6 +12,6 @@ public class SimpleMaze extends AbstractMaze {
         }
 
         private void createCenter() {
-            mazeObstacles.add(new SquareObstacle(0,0));
+            mazeObstacles.add(new SquareObstacle(1,1));
         }
 }

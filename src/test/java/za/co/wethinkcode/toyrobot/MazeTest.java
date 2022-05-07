@@ -26,7 +26,7 @@ public class MazeTest {
     public void testSimpleMaze() {
         AbstractMaze simpleMaze = new SimpleMaze();
         assertTrue(simpleMaze.getObstacles().size() == 1);
-        assertTrue(simpleMaze.blocksPath(new Position(-1,0), new Position(1,0)));
+        assertTrue(simpleMaze.blocksPath(new Position(1,0), new Position(1,7)));
     }
 
     @Test

@@ -56,29 +56,36 @@ public class ReplayCommand extends Command {
             }
         }
         target.setCache(cache.substring(0, cache.length() - 1));
-        target.setStatus("Replayed " + commands + " commands" + reverseStatus + ".");
+        target.setStatus("replayed " + commands + " commands.");
+        System.out.println(target);
     }
 
     private void replayN(Robot target) {
         String cache = "";
         int commands = 0;
         int limit = Integer.parseInt(getArgument());
+        List<Command> newCommandHistory = new ArrayList<Command>();
         List<Command> commandHistory = target.getCommandHistory();
+        Collections.reverse(commandHistory);
+        while(commands < limit) {
+            Command command = commandHistory.get(commands);
+            newCommandHistory.add(command);
+            commands++;
+        }
+        commandHistory = newCommandHistory;
+        Collections.reverse(commandHistory);
         if(reverseStatus.equals(" reversed")) {
             Collections.reverse(commandHistory);
         }
         for (Command command: commandHistory) {
             if (movementCommand(command)) {
-                if (commands >= limit) {
-                    break;
-                }
                 command.execute(target);
                 cache += target.toString() + "\n";
-                commands++;
             }
         }
         target.setCache(cache.substring(0, cache.length() - 1));
-        target.setStatus("Replayed " + commands + " commands" + reverseStatus + ".");
+        target.setStatus("replayed " + commands + " commands.");
+        System.out.println(target);
     }
 
     private void replayNM(Robot target) {
@@ -89,20 +96,26 @@ public class ReplayCommand extends Command {
         int lowerLimit = Integer.parseInt(args[1]);
         List<Command> commandHistory = target.getCommandHistory();
         List<Command> newCommandHistory = new ArrayList<Command>();
-        if(reverseStatus.equals(" reversed")) {
-            Collections.reverse(commandHistory);
-        }
-        while (upperLimit > lowerLimit) {
+        Collections.reverse(commandHistory);
+        while(upperLimit > lowerLimit) {
             Command command = commandHistory.get(upperLimit - 1);
+            newCommandHistory.add(command);
+            upperLimit--;
+        }
+        if(reverseStatus.equals(" reversed")) {
+            Collections.reverse(newCommandHistory);
+        }
+        commandHistory = newCommandHistory;
+        for(Command command: commandHistory) {
             if (movementCommand(command)) {
                 command.execute(target);
                 cache += target.toString() + "\n";
                 commands++;
             }
-            upperLimit--;
         }
         target.setCache(cache.substring(0, cache.length() - 1));
-        target.setStatus("Replayed " + commands + " commands" + reverseStatus + ".");
+        target.setStatus("replayed " + commands + " commands.");
+        System.out.println(target);
     }
 
     private boolean movementCommand(Command command) {

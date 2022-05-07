@@ -56,13 +56,13 @@ public class SimpleMazeRunner implements MazeRunner {
         int X = target.getPosition().getX();
         int Y = target.getPosition().getY();
 
-        if (X == 100 && edgeDirection.equals(IWorld.Direction.RIGHT)) {
+        if (X == 200 && edgeDirection.equals(IWorld.Direction.RIGHT)) {
             return true;
         }
         else if (X == -200 && edgeDirection.equals(IWorld.Direction.LEFT)) {
             return true;
         }
-        else if (Y == 100 && edgeDirection.equals(IWorld.Direction.UP)) {
+        else if (Y == 200 && edgeDirection.equals(IWorld.Direction.UP)) {
             return true;
         }
         else if (Y == -200 && edgeDirection.equals(IWorld.Direction.DOWN)) {

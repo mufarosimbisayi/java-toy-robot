@@ -29,7 +29,7 @@ class WorldTest {
     @Test
     public void checkUpdatePosition() {
         TextWorld world = new TextWorld(new EmptyMaze());
-        world.updatePosition(150);
+        world.updatePosition(250);
         assertEquals(world.robotPosition, new Position(0,0));
         world.updateDirection(false);
         world.updatePosition(150);

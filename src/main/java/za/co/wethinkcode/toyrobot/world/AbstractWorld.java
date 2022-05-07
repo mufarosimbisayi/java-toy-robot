@@ -5,13 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 import za.co.wethinkcode.toyrobot.Position;
 import za.co.wethinkcode.toyrobot.maze.AbstractMaze;
+import za.co.wethinkcode.toyrobot.maze.EmptyMaze;
 
 public abstract class AbstractWorld implements IWorld {
 
     public Position robotPosition = CENTRE;
     public AbstractMaze maze;
-    private final Position TOP_LEFT = new Position(-200,100);
-    private final Position BOTTOM_RIGHT = new Position(100, -200);
+    private final Position TOP_LEFT = new Position(-200,200);
+    private final Position BOTTOM_RIGHT = new Position(200, -200);
 
     private Direction currentDirection = Direction.UP;
 
@@ -89,11 +90,29 @@ public abstract class AbstractWorld implements IWorld {
     }
 
     public boolean isAtEdge() {
-        return true;
+        int X = this.getPosition().getX();
+        int Y = this.getPosition().getY();
+
+        if (X == 200) {
+            return true;
+        }
+        else if (X == -200) {
+            return true;
+        }
+        else if (Y == 200) {
+            return true;
+        }
+        else if (Y == -200) {
+            return true;
+        }
+
+        return false;
     }
 
     public void reset() {
-    
+        this.robotPosition = new Position(0,0);
+        this.maze = new EmptyMaze();
+        this.currentDirection = IWorld.Direction.UP;
     }
 
     public void showObstacles() {
