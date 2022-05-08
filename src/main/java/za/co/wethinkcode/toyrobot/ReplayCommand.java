@@ -4,7 +4,7 @@ import java.util.*;
 
 public class ReplayCommand extends Command {
 
-    private String reverseStatus = "";
+    private boolean reversed = false;
 
     public ReplayCommand() {
         super("replay");
@@ -18,7 +18,7 @@ public class ReplayCommand extends Command {
     public boolean execute(Robot target) {
 
         if(getArgument().contains("reversed")) {
-            reverseStatus = " reversed";
+            reversed = true;
             String newArgument = getArgument().replace("reversed", "");
             if(!newArgument.equals("")) {
                 newArgument = newArgument.trim();
@@ -27,41 +27,29 @@ public class ReplayCommand extends Command {
         }
 
         if (getArgument().equals("all") || getArgument().equals("")) {
-            replayAll(target);
+            replay(target);
         }
         else {
             String[] args = getArgument().trim().split("-");
             if (args.length == 1) {
-                replayN(target);
+                replayLimit(target);
             }
             else if (args.length == 2) {
-                replayNM(target);
+                replayRange(target);
             }
         }
         return true;
     }
 
-    private void replayAll(Robot target) {
-        String cache = "";
-        int commands = 0;
+    private void replay(Robot target) {
         List<Command> commandHistory = target.getCommandHistory();
-        if(reverseStatus.equals(" reversed")) {
+        if(reversed) {
             Collections.reverse(commandHistory);
         }
-        for (Command command: commandHistory) {
-            if (movementCommand(command)) {
-                command.execute(target);
-                cache += target.toString() + "\n";
-                commands++;
-            }
-        }
-        target.setCache(cache.substring(0, cache.length() - 1));
-        target.setStatus("replayed " + commands + " commands.");
-        System.out.println(target);
+        runCommands(commandHistory, target);
     }
 
-    private void replayN(Robot target) {
-        String cache = "";
+    private void replayLimit(Robot target) {
         int commands = 0;
         int limit = Integer.parseInt(getArgument());
         List<Command> newCommandHistory = new ArrayList<Command>();
@@ -74,23 +62,13 @@ public class ReplayCommand extends Command {
         }
         commandHistory = newCommandHistory;
         Collections.reverse(commandHistory);
-        if(reverseStatus.equals(" reversed")) {
+        if(reversed) {
             Collections.reverse(commandHistory);
         }
-        for (Command command: commandHistory) {
-            if (movementCommand(command)) {
-                command.execute(target);
-                cache += target.toString() + "\n";
-            }
-        }
-        target.setCache(cache.substring(0, cache.length() - 1));
-        target.setStatus("replayed " + commands + " commands.");
-        System.out.println(target);
+        runCommands(commandHistory, target);
     }
 
-    private void replayNM(Robot target) {
-        String cache = "";
-        int commands = 0;
+    private void replayRange(Robot target) {
         String args[] = getArgument().trim().split("-");
         int upperLimit = Integer.parseInt(args[0]);
         int lowerLimit = Integer.parseInt(args[1]);
@@ -102,11 +80,17 @@ public class ReplayCommand extends Command {
             newCommandHistory.add(command);
             upperLimit--;
         }
-        if(reverseStatus.equals(" reversed")) {
+        if(reversed) {
             Collections.reverse(newCommandHistory);
         }
         commandHistory = newCommandHistory;
-        for(Command command: commandHistory) {
+        runCommands(commandHistory, target);
+    }
+
+    private void runCommands(List<Command> targetCommands, Robot target) {
+        String cache = "";
+        int commands = 0;
+        for(Command command: targetCommands) {
             if (movementCommand(command)) {
                 command.execute(target);
                 cache += target.toString() + "\n";
