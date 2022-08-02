@@ -1,7 +1,5 @@
 # problem-102-java-004-002
-Module 102
-Topic 004: Inheritance, Composition and Polymorphism
-Problem 002: Toy Robot 2
+Inheritance, Composition and Polymorphism
 
 ## Getting Started
 This project is a `Java` project using `maven` as build tool.
